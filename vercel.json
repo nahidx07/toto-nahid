@@ -1,5 +1,5 @@
 {
-  "name": "toto-live-app",
+  "name": "toto-live-stream",
   "version": 2,
   "builds": [
     {
@@ -13,24 +13,32 @@
     {
       "src": "**/*.css",
       "use": "@vercel/static"
+    },
+    {
+      "src": "firebase-config.js",
+      "use": "@vercel/static"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/",
-      "dest": "/user/index.html"
+      "source": "/",
+      "destination": "/user/index.html"
     },
     {
-      "src": "/admin",
-      "dest": "/admin/index.html"
+      "source": "/admin",
+      "destination": "/admin/index.html"
     },
     {
-      "src": "/user",
-      "dest": "/user/index.html"
+      "source": "/admin/",
+      "destination": "/admin/index.html"
     },
     {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "source": "/user",
+      "destination": "/user/index.html"
+    },
+    {
+      "source": "/user/",
+      "destination": "/user/index.html"
     }
   ],
   "headers": [
@@ -38,10 +46,23 @@
       "source": "/(.*)",
       "headers": [
         {
-          "key": "Cache-Control",
-          "value": "public, max-age=3600"
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
         }
       ]
     }
-  ]
+  ],
+  "trailingSlash": false
 }

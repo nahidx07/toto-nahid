@@ -1,9 +1,10 @@
+// আপনার Firebase প্রজেক্টের কনফিগারেশন
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-  projectId: "YOUR_PROJECT",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyAmdXx4PAETjr42lpSbTR6sb5H0WqUyzoo",
+    authDomain: "totolive-6689f.firebaseapp.com",
+    databaseURL: "https://totolive-6689f-default-rtdb.firebaseio.com",
+    projectId: "totolive-6689f",
+    storageBucket: "", // খালি রাখুন, Storage ব্যবহার করছি না
+    messagingSenderId: "423841122771",
+    appId: "1:423841122771:web:ad3c529d8dc9833a69c726"
 };

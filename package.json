@@ -1,0 +1,17 @@
+{
+  "name": "toto-firebase-app",
+  "version": "1.0.0",
+  "description": "Toto Live Stream App with Firebase Backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "serve .",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.0.0"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}

@@ -1,17 +1,17 @@
 {
   "name": "toto-firebase-app",
   "version": "1.0.0",
-  "description": "Toto Live Stream App with Firebase Backend",
-  "main": "index.js",
+  "description": "Toto Live Streaming App with Firebase",
+  "main": "firebase-config.js",
   "scripts": {
-    "start": "serve .",
+    "start": "live-server --port=3000",
     "deploy": "vercel --prod"
   },
   "dependencies": {},
   "devDependencies": {
-    "serve": "^14.0.0"
+    "live-server": "^1.2.2"
   },
-  "engines": {
-    "node": ">=14"
-  }
+  "keywords": ["firebase", "live-streaming", "telegram", "admin-panel"],
+  "author": "Your Name",
+  "license": "MIT"
 }

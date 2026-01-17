@@ -1,19 +1,31 @@
 {
-  "name": "toto-firebase-app",
+  "name": "toto-live-app",
   "version": 2,
   "builds": [
     {
       "src": "**/*.html",
       "use": "@vercel/static"
+    },
+    {
+      "src": "**/*.js",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "**/*.css",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
+    {
+      "src": "/",
+      "dest": "/user/index.html"
+    },
     {
       "src": "/admin",
       "dest": "/admin/index.html"
     },
     {
-      "src": "/",
+      "src": "/user",
       "dest": "/user/index.html"
     },
     {
@@ -26,16 +38,8 @@
       "source": "/(.*)",
       "headers": [
         {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
         }
       ]
     }

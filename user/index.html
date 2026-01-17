@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toto Live Stream</title>
+    <link rel="stylesheet" href="user.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- টপ বার -->
+    <header class="main-header">
+        <div class="header-left">
+            <img id="app-logo" src="" alt="Logo" class="app-logo">
+            <span id="site-title" class="site-title">Toto Live</span>
+        </div>
+        <div class="header-right">
+            <div class="xp-badge" id="xp-badge">
+                <i class="fas fa-bolt"></i>
+                <span id="user-xp">0</span> XP
+            </div>
+            <div class="profile-icon" onclick="showProfile()">
+                <img id="user-avatar" src="https://www.w3schools.com/howto/img_avatar.png" alt="Profile">
+            </div>
+        </div>
+    </header>
+
+    <!-- মেইন কন্টেন্ট -->
+    <main class="main-content">
+        <!-- হোম পেজ -->
+        <div id="home-page" class="page active">
+            <div class="page-header">
+                <h1><i class="fas fa-tv"></i> সরাসরি সম্প্রচার</h1>
+                <div class="live-indicator">
+                    <span class="live-dot"></span> LIVE NOW
+                </div>
+            </div>
+            
+            <div class="matches-container" id="matches-container">
+                <!-- ম্যাচ কার্ডগুলো এখানে লোড হবে -->
+            </div>
+            
+            <div class="stats-section">
+                <div class="stat-item">
+                    <i class="fas fa-users"></i>
+                    <div>
+                        <h3 id="total-users-count">0</h3>
+                        <p>অনলাইন ব্যবহারকারী</p>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-eye"></i>
+                    <div>
+                        <h3 id="total-watching-count">0</h3>
+                        <p>মোট দর্শক</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- প্রোফাইল পেজ -->
+        <div id="profile-page" class="page">
+            <div class="profile-header">
+                <button class="back-btn" onclick="showHome()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>আমার প্রোফাইল</h2>
+            </div>
+            
+            <div class="profile-card">
+                <div class="avatar-container">
+                    <img id="profile-avatar" src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar">
+                    <label for="avatar-upload" class="avatar-upload-btn">
+                        <i class="fas fa-camera"></i>
+                    </label>
+                    <input type="file" id="avatar-upload" accept="image/*" style="display: none;" onchange="uploadAvatar(event)">
+                </div>
+                
+                <h2 id="user-name">লোড হচ্ছে...</h2>
+                <div class="user-rank" id="user-rank">
+                    <i class="fas fa-crown"></i>
+                    <span>প্রিমিয়াম মেম্বার</span>
+                </div>
+                
+                <div class="profile-info">
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <label>ইমেইল</label>
+                            <p id="user-email">-</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <label>ফোন নম্বর</label>
+                            <p id="user-phone">-</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-id-card"></i>
+                        <div>
+                            <label>টেলিগ্রাম ID</label>
+                            <p id="user-telegram">-</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-calendar"></i>
+                        <div>
+                            <label>যোগদান তারিখ</label>
+                            <p id="join-date">-</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="xp-progress">
+                    <div class="xp-header">
+                        <span>XP Progress</span>
+                        <span id="current-level">Level 1</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="xp-progress-fill"></div>
+                    </div>
+                    <div class="xp-numbers">
+                        <span id="current-xp">0</span>
+                        <span>/</span>
+                        <span id="next-level-xp">1000</span>
+                    </div>
+                </div>
+                
+                <button class="upgrade-btn" onclick="upgradeToPremium()">
+                    <i class="fas fa-crown"></i> প্রিমিয়াম এ আপগ্রেড করুন
+                </button>
+            </div>
+        </div>
+
+        <!-- লাইভ ভিউ পেজ -->
+        <div id="live-page" class="page">
+            <div class="live-header">
+                <button class="back-btn" onclick="closeLive()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h3 id="live-match-title">লাইভ ম্যাচ</h3>
+                <div class="live-stats">
+                    <span class="viewer-count">
+                        <i class="fas fa-eye"></i>
+                        <span id="live-viewer-count">0</span>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="video-container" id="video-container">
+                <!-- ভিডিও এখানে লোড হবে -->
+            </div>
+            
+            <div class="chat-section">
+                <div class="chat-header">
+                    <h4><i class="fas fa-comments"></i> লাইভ চ্যাট</h4>
+                    <span id="chat-user-count">0 জন অনলাইন</span>
+                </div>
+                
+                <div class="chat-messages" id="chat-messages">
+                    <!-- চ্যাট মেসেজগুলো এখানে লোড হবে -->
+                </div>
+                
+                <div class="chat-input">
+                    <input type="text" id="chat-input-field" placeholder="এখানে লিখুন..." onkeypress="handleChatKeyPress(event)">
+                    <button class="send-btn" onclick="sendChatMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- লিডারবোর্ড পেজ -->
+        <div id="leaderboard-page" class="page">
+            <div class="profile-header">
+                <button class="back-btn" onclick="showHome()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>লিডারবোর্ড</h2>
+            </div>
+            
+            <div class="leaderboard-container">
+                <div class="time-filter">
+                    <button class="time-btn active" onclick="filterLeaderboard('all')">সর্বকাল</button>
+                    <button class="time-btn" onclick="filterLeaderboard('month')">এই মাস</button>
+                    <button class="time-btn" onclick="filterLeaderboard('week')">এই সপ্তাহ</button>
+                </div>
+                
+                <div class="top-three">
+                    <!-- টপ ৩ লোড হবে -->
+                </div>
+                
+                <div class="leaderboard-list" id="leaderboard-list">
+                    <!-- লিডারবোর্ড লিস্ট লোড হবে -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- বটম নেভিগেশন -->
+    <nav class="bottom-nav">
+        <button class="nav-btn active" onclick="showHome()">
+            <i class="fas fa-home"></i>
+            <span>হোম</span>
+        </button>
+        <button class="nav-btn" onclick="showLeaderboard()">
+            <i class="fas fa-trophy"></i>
+            <span>লিডারবোর্ড</span>
+        </button>
+        <button class="nav-btn" onclick="showProfile()">
+            <i class="fas fa-user"></i>
+            <span>প্রোফাইল</span>
+        </button>
+    </nav>
+
+    <!-- প্রিমিয়াম মডাল -->
+    <div id="premium-modal" class="modal-overlay">
+        <div class="modal-content premium-modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-crown"></i> প্রিমিয়াম সাবস্ক্রিপশন</h3>
+                <button class="close-btn" onclick="closePremiumModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="premium-benefits">
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>সকল লাইভ ম্যাচ এক্সেস</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>এড-ফ্রি এক্সপেরিয়েন্স</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>প্রিমিয়াম চ্যাট ব্যাজ</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>বিশেষ অফার এবং ডিসকাউন্ট</span>
+                    </div>
+                </div>
+                
+                <div class="pricing">
+                    <h2 id="premium-price">৳ 500</h2>
+                    <p>মাসিক</p>
+                </div>
+                
+                <button class="subscribe-btn" onclick="subscribePremium()">
+                    <i class="fas fa-shopping-cart"></i> এখনই সাবস্ক্রাইব করুন
+                </button>
+                
+                <p class="terms">সাবস্ক্রাইব করে আপনি আমাদের Terms of Service এবং Privacy Policy মেনে চলতে সম্মত হন</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- নোটিফিকেশন -->
+    <div id="notification" class="notification">
+        <i class="fas fa-bell"></i>
+        <span id="notification-text"></span>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="../firebase-config.js"></script>
+    <script src="user.js"></script>
+    
+    <!-- টেলিগ্রাম ওয়েব অ্যাপ ইন্টিগ্রেশন -->
+    <script>
+        // টেলিগ্রাম ওয়েব অ্যাপ ডেটা
+        let tg = window.Telegram.WebApp;
+        
+        // ইউজার ডেটা ইনিশিয়ালাইজ
+        function initTelegramUser() {
+            if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                const user = tg.initDataUnsafe.user;
+                const userId = `telegram_${user.id}`;
+                
+                // ফায়ারবেসে ইউজার ডেটা সেভ করুন
+                const userData = {
+                    telegramId: user.id,
+                    name: `${user.first_name} ${user.last_name || ''}`.trim(),
+                    username: user.username || '',
+                    languageCode: user.language_code || 'en',
+                    isBot: user.is_bot || false,
+                    lastSeen: firebase.database.ServerValue.TIMESTAMP
+                };
+                
+                database.ref(`users/${userId}`).update(userData);
+                
+                // লোকাল স্টোরেজে সেভ করুন
+                localStorage.setItem('telegram_user_id', userId);
+                localStorage.setItem('telegram_user_data', JSON.stringify(userData));
+                
+                return userId;
+            }
+            return null;
+        }
+        
+        // অ্যাপ রেডি হলে
+        tg.expand();
+        tg.ready();
+        
+        // ব্যাক বাটন হ্যান্ডেল
+        tg.BackButton.onClick(() => {
+            if (document.getElementById('live-page').classList.contains('active')) {
+                closeLive();
+            } else if (!document.getElementById('home-page').classList.contains('active')) {
+                showHome();
+            } else {
+                tg.close();
+            }
+        });
+        
+        // পেইমেন্ট হ্যান্ডেল
+        function processPayment(amount, description) {
+            tg.showPopup({
+                title: 'পেমেন্ট',
+                message: `${description}\n\nমূল্য: ৳ ${amount}`,
+                buttons: [{
+                    id: 'confirm',
+                    type: 'ok',
+                    text: 'কনফার্ম'
+                }, {
+                    id: 'cancel',
+                    type: 'cancel'
+                }]
+            }, (buttonId) => {
+                if (buttonId === 'confirm') {
+                    // পেমেন্ট প্রসেসিং লজিক
+                    tg.sendData(JSON.stringify({
+                        action: 'payment',
+                        amount: amount,
+                        description: description
+                    }));
+                    
+                    showNotification('পেমেন্ট প্রসেসিং...');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

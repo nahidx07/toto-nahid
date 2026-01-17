@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toto Admin Panel</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- লগইন পেজ -->
+    <div id="login-page">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="logo-container">
+                    <i class="fas fa-crown"></i>
+                    <h2>TOTO ADMIN</h2>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="admin-email" placeholder="এডমিন ইমেইল">
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="admin-password" placeholder="পাসওয়ার্ড">
+                </div>
+                <button class="login-btn" onclick="adminLogin()">
+                    <i class="fas fa-sign-in-alt"></i> লগইন
+                </button>
+                <div class="error-message" id="login-error"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- এডমিন ড্যাশবোর্ড -->
+    <div id="admin-dashboard" style="display: none;">
+        <!-- সাইডবার -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-crown"></i> ADMIN</h2>
+                <div class="admin-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="admin-name">এডমিন</span>
+                </div>
+            </div>
+            
+            <div class="sidebar-menu">
+                <a href="#" class="menu-item active" onclick="switchTab('dashboard')">
+                    <i class="fas fa-chart-line"></i> ড্যাশবোর্ড
+                </a>
+                <a href="#" class="menu-item" onclick="switchTab('matches')">
+                    <i class="fas fa-tv"></i> লাইভ ম্যাচ
+                </a>
+                <a href="#" class="menu-item" onclick="switchTab('users')">
+                    <i class="fas fa-users"></i> ব্যবহারকারী
+                </a>
+                <a href="#" class="menu-item" onclick="switchTab('settings')">
+                    <i class="fas fa-cog"></i> সেটিংস
+                </a>
+                <a href="#" class="menu-item" onclick="switchTab('broadcast')">
+                    <i class="fas fa-broadcast-tower"></i> ব্রডকাস্ট
+                </a>
+            </div>
+            
+            <button class="logout-btn" onclick="adminLogout()">
+                <i class="fas fa-sign-out-alt"></i> লগআউট
+            </button>
+        </div>
+
+        <!-- মেইন কন্টেন্ট -->
+        <div class="main-content">
+            <!-- টপবার -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <button class="menu-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h3 id="page-title">ড্যাশবোর্ড</h3>
+                </div>
+                <div class="topbar-right">
+                    <div class="stats">
+                        <span class="stat-item">
+                            <i class="fas fa-user"></i>
+                            <span id="total-users">0</span>
+                        </span>
+                        <span class="stat-item">
+                            <i class="fas fa-tv"></i>
+                            <span id="active-matches">0</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ট্যাব কন্টেন্ট -->
+            <div class="tab-content">
+                <!-- ড্যাশবোর্ড ট্যাব -->
+                <div id="dashboard-tab" class="tab-pane active">
+                    <div class="stats-cards">
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: #4CAF50;">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="total-users-count">0</h3>
+                                <p>মোট ব্যবহারকারী</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: #2196F3;">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="total-watching">0</h3>
+                                <p>সর্বমোট দর্শক</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: #FF9800;">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="total-chats">0</h3>
+                                <p>মোট চ্যাট</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: #E91E63;">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="top-xp">0</h3>
+                                <p>সর্বোচ্চ XP</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recent-activities">
+                        <h3>সাম্প্রতিক কার্যক্রম</h3>
+                        <div class="activities-list" id="activities-list">
+                            <!-- Activities will load here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ম্যাচ ম্যানেজমেন্ট ট্যাব -->
+                <div id="matches-tab" class="tab-pane">
+                    <div class="section-header">
+                        <h3>লাইভ ম্যাচ ম্যানেজমেন্ট</h3>
+                        <button class="btn-primary" onclick="openAddMatchModal()">
+                            <i class="fas fa-plus"></i> নতুন ম্যাচ
+                        </button>
+                    </div>
+
+                    <div class="match-form-card" id="match-form" style="display: none;">
+                        <h4 id="form-title">নতুন ম্যাচ যোগ করুন</h4>
+                        <div class="form-group">
+                            <label>ম্যাচ টাইটেল</label>
+                            <input type="text" id="match-title" placeholder="উদাহরণ: Barcelona vs Real Madrid">
+                        </div>
+                        <div class="form-group">
+                            <label>থাম্বনেইল URL</label>
+                            <input type="text" id="match-thumbnail" placeholder="https://example.com/image.jpg">
+                        </div>
+                        <div class="form-group">
+                            <label>ভিডিও URL</label>
+                            <input type="text" id="match-video" placeholder="YouTube/Vimeo/Stream URL">
+                        </div>
+                        <div class="form-group">
+                            <label>বিভাগ</label>
+                            <select id="match-category">
+                                <option value="football">ফুটবল</option>
+                                <option value="cricket">ক্রিকেট</option>
+                                <option value="other">অন্যান্য</option>
+                            </select>
+                        </div>
+                        <div class="form-buttons">
+                            <button class="btn-secondary" onclick="cancelMatchForm()">বাতিল</button>
+                            <button class="btn-primary" id="match-submit-btn" onclick="saveMatch()">সংরক্ষণ করুন</button>
+                        </div>
+                    </div>
+
+                    <div class="matches-list" id="matches-list">
+                        <!-- Matches will load here -->
+                    </div>
+                </div>
+
+                <!-- ইউজার ম্যানেজমেন্ট ট্যাব -->
+                <div id="users-tab" class="tab-pane">
+                    <div class="section-header">
+                        <h3>ব্যবহারকারী তালিকা</h3>
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="user-search" placeholder="ব্যবহারকারী খুঁজুন..." onkeyup="searchUsers()">
+                        </div>
+                    </div>
+
+                    <div class="users-table-container">
+                        <table class="users-table">
+                            <thead>
+                                <tr>
+                                    <th>নাম</th>
+                                    <th>ইমেইল</th>
+                                    <th>ফোন</th>
+                                    <th>XP</th>
+                                    <th>স্ট্যাটাস</th>
+                                    <th>কার্যক্রম</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-table-body">
+                                <!-- Users will load here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- সেটিংস ট্যাব -->
+                <div id="settings-tab" class="tab-pane">
+                    <div class="settings-card">
+                        <h3>অ্যাপ সেটিংস</h3>
+                        
+                        <div class="form-group">
+                            <label>অ্যাপ লোগো URL</label>
+                            <input type="text" id="app-logo-url" placeholder="https://example.com/logo.png">
+                            <small>PNG বা JPG ফরম্যাটের লিঙ্ক দিন</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>প্রিমিয়াম সাবস্ক্রিপশন মূল্য (৳)</label>
+                            <input type="number" id="premium-price" placeholder="500">
+                        </div>
+
+                        <div class="form-group">
+                            <label>ডিফল্ট XP</label>
+                            <input type="number" id="default-xp" placeholder="1000">
+                            <small>নতুন ইউজারের জন্য ডিফল্ট XP</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>সাইট শিরোনাম</label>
+                            <input type="text" id="site-title" placeholder="Toto Live Stream">
+                        </div>
+
+                        <div class="form-group">
+                            <label>টেলিগ্রাম বট লিঙ্ক</label>
+                            <input type="text" id="telegram-bot" placeholder="https://t.me/your_bot">
+                        </div>
+
+                        <button class="btn-primary" onclick="saveSettings()">
+                            <i class="fas fa-save"></i> সেটিংস সংরক্ষণ করুন
+                        </button>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>অ্যাডমিন ম্যানেজমেন্ট</h3>
+                        <div class="form-group">
+                            <label>নতুন অ্যাডমিন যোগ করুন</label>
+                            <input type="email" id="new-admin-email" placeholder="newadmin@example.com">
+                            <button class="btn-secondary" onclick="addNewAdmin()">অ্যাডমিন যোগ করুন</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ব্রডকাস্ট ট্যাব -->
+                <div id="broadcast-tab" class="tab-pane">
+                    <div class="broadcast-card">
+                        <h3>ব্রডকাস্ট বার্তা</h3>
+                        <div class="form-group">
+                            <label>বার্তা টাইপ</label>
+                            <select id="broadcast-type">
+                                <option value="all">সকল ব্যবহারকারী</option>
+                                <option value="premium">শুধু প্রিমিয়াম ব্যবহারকারী</option>
+                                <option value="free">শুধু ফ্রি ব্যবহারকারী</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>বার্তা</label>
+                            <textarea id="broadcast-message" rows="4" placeholder="আপনার বার্তা লিখুন..."></textarea>
+                        </div>
+                        <button class="btn-primary" onclick="sendBroadcast()">
+                            <i class="fas fa-bullhorn"></i> ব্রডকাস্ট করুন
+                        </button>
+                    </div>
+
+                    <div class="notification-history">
+                        <h3>পূর্বের নোটিফিকেশন</h3>
+                        <div id="notification-list">
+                            <!-- Notifications will load here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- মডালস -->
+    <div id="modal-overlay" class="modal-overlay" onclick="closeModal()"></div>
+    
+    <div id="user-modal" class="modal">
+        <div class="modal-header">
+            <h3>ব্যবহারকারী বিবরণ</h3>
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="user-modal-body">
+            <!-- User details will load here -->
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <script src="../firebase-config.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

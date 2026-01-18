@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toto Live - Premium Streaming</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --card: #1a1a2e;
+            --red: #ff3860;
+            --blue: #3273dc;
+            --yellow: #ffdd57;
+            --text: #ffffff;
+            --text2: #b0b0c0;
+            --border: #2a2a3a;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Hind Siliguri', sans-serif; background: var(--bg); color: var(--text); }
+        
+        /* Header */
+        .header { 
+            background: var(--card); 
+            padding: 15px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+        .logo { 
+            font-size: 24px; 
+            font-weight: bold; 
+            background: linear-gradient(45deg, var(--red), var(--yellow));
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
+        .xp-badge { 
+            background: rgba(255,221,87,0.2); 
+            padding: 8px 15px; 
+            border-radius: 20px; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+        }
+        
+        /* Main Content */
+        .main { padding: 20px; max-width: 1200px; margin: 0 auto; }
+        .page-title { margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        
+        /* Matches Grid */
+        .matches-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            gap: 20px; 
+            margin-bottom: 30px; 
+        }
+        .match-card { 
+            background: var(--card); 
+            border-radius: 15px; 
+            overflow: hidden; 
+            border: 1px solid var(--border);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        .match-card:hover { transform: translateY(-5px); }
+        .match-thumb { 
+            width: 100%; 
+            height: 180px; 
+            background: #000; 
+            position: relative; 
+        }
+        .live-badge { 
+            position: absolute; 
+            top: 10px; 
+            right: 10px; 
+            background: var(--red); 
+            color: white; 
+            padding: 5px 10px; 
+            border-radius: 15px; 
+            font-size: 12px; 
+        }
+        .match-info { padding: 15px; }
+        .match-title { font-size: 18px; margin-bottom: 10px; }
+        .match-meta { display: flex; justify-content: space-between; color: var(--text2); font-size: 14px; }
+        
+        /* Stats */
+        .stats { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 15px; 
+            margin: 30px 0; 
+        }
+        .stat-card { 
+            background: var(--card); 
+            padding: 20px; 
+            border-radius: 15px; 
+            border: 1px solid var(--border);
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+        }
+        .stat-icon { 
+            width: 50px; 
+            height: 50px; 
+            background: rgba(50,115,220,0.1); 
+            border-radius: 12px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 24px; 
+            color: var(--blue); 
+        }
+        
+        /* Navigation */
+        .nav { 
+            position: fixed; 
+            bottom: 20px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            background: var(--card); 
+            padding: 15px 25px; 
+            border-radius: 50px; 
+            display: flex; 
+            gap: 30px; 
+            border: 1px solid var(--border);
+        }
+        .nav-btn { 
+            background: none; 
+            border: none; 
+            color: var(--text2); 
+            font-size: 20px; 
+            cursor: pointer; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 5px; 
+        }
+        .nav-btn.active { color: var(--red); }
+        .nav-btn span { font-size: 12px; }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .matches-grid { grid-template-columns: 1fr; }
+            .nav { width: 90%; justify-content: space-around; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">TOTO LIVE</div>
+        <div class="xp-badge">
+            <i class="fas fa-bolt"></i>
+            <span id="xp">0</span> XP
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <h2 class="page-title"><i class="fas fa-tv"></i> লাইভ ম্যাচ</h2>
+        
+        <!-- Matches -->
+        <div class="matches-grid" id="matches">
+            <!-- Matches will load here -->
+        </div>
+        
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-users"></i></div>
+                <div>
+                    <h3 id="total-users">0</h3>
+                    <p>মোট ইউজার</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-eye"></i></div>
+                <div>
+                    <h3 id="watching">0</h3>
+                    <p>দর্শক</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <button class="nav-btn active">
+            <i class="fas fa-home"></i>
+            <span>হোম</span>
+        </button>
+        <button class="nav-btn" onclick="window.location.href='#profile'">
+            <i class="fas fa-user"></i>
+            <span>প্রোফাইল</span>
+        </button>
+        <button class="nav-btn" onclick="window.location.href='#leaderboard'">
+            <i class="fas fa-trophy"></i>
+            <span>লিডারবোর্ড</span>
+        </button>
+        <button class="nav-btn" onclick="window.location.href='admin.html'">
+            <i class="fas fa-crown"></i>
+            <span>এডমিন</span>
+        </button>
+    </nav>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <!-- App Script -->
+    <script>
+        // Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAmdXx4PAETjr42lpSbTR6sb5H0WqUyzoo",
+            authDomain: "totolive-6689f.firebaseapp.com",
+            databaseURL: "https://totolive-6689f-default-rtdb.firebaseio.com",
+            projectId: "totolive-6689f",
+            storageBucket: "",
+            messagingSenderId: "423841122771",
+            appId: "1:423841122771:web:ad3c529d8dc9833a69c726"
+        };
+        
+        // Initialize
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.database();
+        
+        // User ID
+        let userId = localStorage.getItem('user_id') || 'user_' + Date.now();
+        if (!localStorage.getItem('user_id')) {
+            localStorage.setItem('user_id', userId);
+        }
+        
+        // Load Matches
+        function loadMatches() {
+            db.ref('matches').on('value', snapshot => {
+                const container = document.getElementById('matches');
+                container.innerHTML = '';
+                
+                let totalWatching = 0;
+                
+                snapshot.forEach(child => {
+                    const match = child.val();
+                    const matchId = child.key;
+                    
+                    if (match.status === 'active') {
+                        totalWatching += match.watching || 0;
+                        
+                        const card = document.createElement('div');
+                        card.className = 'match-card';
+                        card.innerHTML = `
+                            <div class="match-thumb">
+                                <div class="live-badge">● LIVE</div>
+                            </div>
+                            <div class="match-info">
+                                <h3 class="match-title">${match.title || 'Live Match'}</h3>
+                                <div class="match-meta">
+                                    <span>${match.category || 'Sports'}</span>
+                                    <span><i class="fas fa-eye"></i> ${match.watching || 0}</span>
+                                </div>
+                            </div>
+                        `;
+                        
+                        // Set background image if thumbnail exists
+                        if (match.thumbnail) {
+                            card.querySelector('.match-thumb').style.backgroundImage = `url('${match.thumbnail}')`;
+                            card.querySelector('.match-thumb').style.backgroundSize = 'cover';
+                            card.querySelector('.match-thumb').style.backgroundPosition = 'center';
+                        }
+                        
+                        container.appendChild(card);
+                    }
+                });
+                
+                // Update stats
+                document.getElementById('watching').textContent = totalWatching;
+            });
+        }
+        
+        // Load Users Count
+        function loadUsersCount() {
+            db.ref('users').on('value', snapshot => {
+                const count = snapshot.numChildren();
+                document.getElementById('total-users').textContent = count;
+            });
+        }
+        
+        // Initialize User
+        function initUser() {
+            const userRef = db.ref('users/' + userId);
+            
+            userRef.once('value').then(snap => {
+                if (!snap.exists()) {
+                    userRef.set({
+                        name: 'নতুন ব্যবহারকারী',
+                        xp: 1000,
+                        createdAt: Date.now(),
+                        lastSeen: Date.now()
+                    });
+                } else {
+                    userRef.update({ lastSeen: Date.now() });
+                }
+            });
+            
+            // Update XP
+            userRef.on('value', snap => {
+                const user = snap.val();
+                if (user && user.xp) {
+                    document.getElementById('xp').textContent = user.xp;
+                }
+            });
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initUser();
+            loadMatches();
+            loadUsersCount();
+        });
+        
+        // Auto-refresh every 30 seconds
+        setInterval(loadMatches, 30000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>পৃষ্ঠা পাওয়া যায়নি - Toto Live</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --card: #1a1a2e;
+            --red: #ff3860;
+            --blue: #3273dc;
+            --yellow: #ffdd57;
+            --text: #ffffff;
+            --text2: #b0b0c0;
+            --border: #2a2a3a;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(255, 56, 96, 0.1) 0%, transparent 55%),
+                radial-gradient(circle at 75% 75%, rgba(50, 115, 220, 0.1) 0%, transparent 55%);
+        }
+        
+        /* Error Container */
+        .error-container {
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+            background: var(--card);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Animated Background */
+        .error-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 56, 96, 0.05) 50%,
+                transparent 70%
+            );
+            animation: shine 3s infinite linear;
+            z-index: 0;
+        }
+        
+        @keyframes shine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Error Number */
+        .error-number {
+            font-size: 120px;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--red), var(--yellow));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+            margin-bottom: 20px;
+            text-shadow: 0 10px 20px rgba(255, 56, 96, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .error-icon {
+            font-size: 80px;
+            color: var(--red);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        /* Error Message */
+        .error-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text);
+        }
+        
+        .error-description {
+            font-size: 18px;
+            color: var(--text2);
+            line-height: 1.6;
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Navigation Links */
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .nav-btn {
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            min-width: 160px;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, var(--red), #ff2b56);
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 56, 96, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(50, 115, 220, 0.1);
+            color: var(--blue);
+            border: 2px solid var(--blue);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(50, 115, 220, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(50, 115, 220, 0.2);
+        }
+        
+        /* Stats */
+        .error-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--yellow);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: var(--text2);
+        }
+        
+        /* Footer */
+        .error-footer {
+            margin-top: 40px;
+            color: var(--text2);
+            font-size: 14px;
+        }
+        
+        .error-footer a {
+            color: var(--blue);
+            text-decoration: none;
+        }
+        
+        .error-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Live Match Preview */
+        .live-preview {
+            background: rgba(255, 56, 96, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 56, 96, 0.3);
+        }
+        
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--red);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .error-number {
+                font-size: 80px;
+                gap: 15px;
+            }
+            
+            .error-icon {
+                font-size: 60px;
+            }
+            
+            .error-title {
+                font-size: 24px;
+            }
+            
+            .error-description {
+                font-size: 16px;
+            }
+            
+            .nav-btn {
+                padding: 10px 20px;
+                min-width: 140px;
+                font-size: 14px;
+            }
+            
+            .error-container {
+                padding: 30px 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .error-number {
+                font-size: 60px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .error-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+        
+        /* Animation */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-content">
+            <div class="error-number">
+                <i class="fas fa-exclamation-triangle error-icon"></i>
+                ৪০৪
+            </div>
+            
+            <h1 class="error-title">পৃষ্ঠা পাওয়া যায়নি</h1>
+            
+            <p class="error-description">
+                দুঃখিত, আপনি যে পৃষ্ঠাটি খুঁজছেন সেটি মুছে ফেলা হয়েছে, 
+                নাম পরিবর্তন করা হয়েছে বা অস্থায়ীভাবে অনুপলব্ধ। 
+                আপনি হয়তো ভুল URL লিখেছেন, অথবা পৃষ্ঠাটি অন্য জায়গায় সরানো হয়েছে।
+            </p>
+            
+            <div class="live-preview">
+                <div class="live-badge">
+                    <i class="fas fa-broadcast-tower"></i>
+                    এখন লাইভ আছে
+                </div>
+                <p style="color: var(--text); margin-bottom: 10px;">
+                    <i class="fas fa-trophy" style="color: var(--yellow);"></i>
+                    আজকের বিশেষ ম্যাচ চলছে
+                </p>
+                <p style="color: var(--text2); font-size: 14px;">
+                    লাইভ স্ট্রিম দেখতে হোমপেজে যান
+                </p>
+            </div>
+            
+            <div class="nav-links">
+                <a href="/" class="nav-btn btn-primary">
+                    <i class="fas fa-home"></i>
+                    হোমপেজে যান
+                </a>
+                
+                <a href="admin.html" class="nav-btn btn-secondary">
+                    <i class="fas fa-crown"></i>
+                    এডমিন লগইন
+                </a>
+            </div>
+            
+            <div class="error-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="total-users">২৫০০+</div>
+                    <div class="stat-label">সক্রিয় ইউজার</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number pulse">
+                        <i class="fas fa-eye"></i>
+                        ৫০০+
+                    </div>
+                    <div class="stat-label">এখন লাইভ দেখছেন</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">৯৯%</div>
+                    <div class="stat-label">আপটাইম</div>
+                </div>
+            </div>
+            
+            <div class="error-footer">
+                <p>
+                    সমস্যা সমাধানে সাহায্য প্রয়োজন? 
+                    <a href="mailto:support@totolive.com">support@totolive.com</a>
+                </p>
+                <p style="margin-top: 10px; font-size: 12px;">
+                    &copy; ২০২৪ Toto Live Streaming. সকল স্বত্ব সংরক্ষিত।
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dynamic stats update
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulate live user count
+            function updateLiveStats() {
+                const baseUsers = 2500;
+                const baseWatching = 500;
+                
+                // Add random variation
+                const randomUsers = Math.floor(Math.random() * 100);
+                const randomWatching = Math.floor(Math.random() * 50);
+                
+                // Update stats
+                document.getElementById('total-users').textContent = 
+                    (baseUsers + randomUsers).toLocaleString('bn-BD') + '+';
+                
+                // Make watching counter pulse
+                const watchingElement = document.querySelector('.stat-item:nth-child(2) .stat-number');
+                watchingElement.innerHTML = `
+                    <i class="fas fa-eye"></i>
+                    ${(baseWatching + randomWatching).toLocaleString('bn-BD')}+
+                `;
+                
+                // Update uptime randomly
+                const uptime = (99 + Math.random()).toFixed(1);
+                document.querySelector('.stat-item:nth-child(3) .stat-number').textContent = 
+                    uptime + '%';
+            }
+            
+            // Initial update
+            updateLiveStats();
+            
+            // Update every 10 seconds
+            setInterval(updateLiveStats, 10000);
+            
+            // Add animation to buttons on hover
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px) scale(1.05)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            // Add click sound effect (optional)
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // Create ripple effect
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        border-radius: 50%;
+                        background: rgba(255, 255, 255, 0.5);
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                        pointer-events: none;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    
+                    // Remove ripple after animation
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+            
+            // Add CSS for ripple effect
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ripple {
+                    to {
+                        transform: scale(4);
+                        opacity: 0;
+                    }
+                }
+                .nav-btn {
+                    position: relative;
+                    overflow: hidden;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Auto-redirect after 30 seconds (optional)
+            setTimeout(() => {
+                const redirectConfirm = confirm('৩০ সেকেন্ড পরে আপনি এখনও এই পৃষ্ঠায় আটকে আছেন। হোমপেজে রিডাইরেক্ট করতে চান?');
+                if (redirectConfirm) {
+                    window.location.href = '/';
+                }
+            }, 30000);
+        });
+    </script>
+</body>
+</html>

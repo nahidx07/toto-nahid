@@ -72,7 +72,28 @@
         }
         
         /* Dashboard */
-        .dashboard { display: none; }
+        .dashboard { 
+            display: none; 
+            min-height: 100vh;
+        }
+        
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: var(--red);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
         .sidebar {
             width: 250px;
             background: var(--sidebar);
@@ -82,6 +103,8 @@
             top: 0;
             padding: 20px;
             border-right: 1px solid var(--border);
+            z-index: 1000;
+            transition: transform 0.3s;
         }
         .logo { 
             font-size: 24px; 
@@ -108,6 +131,7 @@
             align-items: center;
             gap: 15px;
             font-size: 16px;
+            transition: all 0.3s;
         }
         .menu-btn:hover, .menu-btn.active {
             background: rgba(255,56,96,0.1);
@@ -128,11 +152,16 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            transition: background 0.3s;
+        }
+        .logout-btn:hover {
+            background: rgba(255,56,96,0.2);
         }
         
         .main-content {
             margin-left: 250px;
             padding: 20px;
+            transition: margin-left 0.3s;
         }
         .topbar {
             background: var(--card);
@@ -157,6 +186,10 @@
             padding: 20px;
             border-radius: 15px;
             border: 1px solid var(--border);
+            transition: transform 0.3s;
+        }
+        .stat-box:hover {
+            transform: translateY(-5px);
         }
         .stat-number {
             font-size: 32px;
@@ -196,6 +229,11 @@
             color: var(--text);
             font-size: 16px;
         }
+        textarea.form-input {
+            min-height: 120px;
+            resize: vertical;
+            font-family: monospace;
+        }
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -212,16 +250,21 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            transition: transform 0.3s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
         }
         
         /* Table */
         .table-container {
             overflow-x: auto;
+            border-radius: 10px;
+            border: 1px solid var(--border);
         }
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
         }
         .data-table th {
             background: var(--sidebar);
@@ -233,6 +276,9 @@
             padding: 15px;
             border-bottom: 1px solid var(--border);
         }
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
         .action-btn {
             padding: 8px 15px;
             border: none;
@@ -240,6 +286,10 @@
             cursor: pointer;
             font-weight: bold;
             margin: 0 5px;
+            transition: transform 0.3s;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
         }
         .btn-edit {
             background: rgba(50,115,220,0.1);
@@ -261,24 +311,96 @@
             animation: fadeIn 0.3s;
         }
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Video Type Selection */
+        .video-type-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .video-type-btn {
+            padding: 10px 20px;
+            background: var(--sidebar);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text2);
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+        }
+        .video-type-btn.active {
+            background: rgba(50,115,220,0.2);
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+        
+        /* Preview */
+        .preview-container {
+            background: var(--bg);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            margin-top: 10px;
+            display: none;
+        }
+        .preview-container.active {
+            display: block;
         }
         
         /* Responsive */
         @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: static;
-                margin-bottom: 20px;
+            .mobile-menu-toggle {
+                display: block;
             }
+            
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
             .main-content {
                 margin-left: 0;
+                padding-top: 80px;
             }
+            
             .form-row {
                 grid-template-columns: 1fr;
             }
+            
+            .topbar {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text2);
+        }
+        .loading-spinner {
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--red);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -292,8 +414,8 @@
             <h2>TOTO ADMIN</h2>
             <p style="color: var(--text2); margin: 10px 0 30px;">এডমিন লগইন</p>
             
-            <input type="email" id="admin-email" class="login-input" placeholder="এডমিন ইমেইল">
-            <input type="password" id="admin-password" class="login-input" placeholder="পাসওয়ার্ড">
+            <input type="email" id="admin-email" class="login-input" placeholder="এডমিন ইমেইল" value="admin@totolive.com">
+            <input type="password" id="admin-password" class="login-input" placeholder="পাসওয়ার্ড" value="admin123">
             
             <button class="login-btn" onclick="adminLogin()">
                 <i class="fas fa-sign-in-alt"></i> লগইন
@@ -305,8 +427,13 @@
 
     <!-- Admin Dashboard -->
     <div class="dashboard" id="dashboard">
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        
         <!-- Sidebar -->
-        <div class="sidebar">
+        <div class="sidebar" id="sidebar">
             <div class="logo">
                 <i class="fas fa-crown"></i>
                 TOTO ADMIN
@@ -338,12 +465,12 @@
         </div>
 
         <!-- Main Content -->
-        <div class="main-content">
+        <div class="main-content" id="main-content">
             <!-- Top Bar -->
             <div class="topbar">
                 <h2 id="page-title">ড্যাশবোর্ড</h2>
                 <div style="display: flex; gap: 15px;">
-                    <div style="background: var(--sidebar); padding: 8px 15px; border-radius: 10px;">
+                    <div style="background: var(--sidebar); padding: 8px 15px; border-radius: 10px; display: flex; align-items: center; gap: 10px;">
                         <i class="fas fa-user"></i>
                         <span id="admin-email-display">admin@totolive.com</span>
                     </div>
@@ -358,18 +485,30 @@
                     <div class="stat-box">
                         <div style="color: var(--text2);">মোট ইউজার</div>
                         <div class="stat-number" id="stat-users">0</div>
+                        <div style="color: var(--green); font-size: 14px;">
+                            <i class="fas fa-arrow-up"></i> আজকের ইউজার: <span id="today-users">0</span>
+                        </div>
                     </div>
                     <div class="stat-box">
                         <div style="color: var(--text2);">এক্টিভ ম্যাচ</div>
                         <div class="stat-number" id="stat-matches">0</div>
+                        <div style="color: var(--blue); font-size: 14px;">
+                            <i class="fas fa-eye"></i> মোট দর্শক: <span id="total-viewers">0</span>
+                        </div>
                     </div>
                     <div class="stat-box">
-                        <div style="color: var(--text2);">দর্শক</div>
+                        <div style="color: var(--text2);">দর্শক (এখন)</div>
                         <div class="stat-number" id="stat-viewers">0</div>
+                        <div style="color: var(--yellow); font-size: 14px;">
+                            <i class="fas fa-users"></i> একটিভ ইউজার: <span id="active-users">0</span>
+                        </div>
                     </div>
                     <div class="stat-box">
                         <div style="color: var(--text2);">মোট XP</div>
                         <div class="stat-number" id="stat-total-xp">0</div>
+                        <div style="color: var(--red); font-size: 14px;">
+                            <i class="fas fa-crown"></i> প্রিমিয়াম: <span id="premium-users">0</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -377,56 +516,126 @@
             <!-- Matches Tab -->
             <div id="matches-tab" class="tab-content">
                 <div class="form-card">
-                    <h3 class="form-title"><i class="fas fa-plus-circle"></i> নতুন ম্যাচ যোগ করুন</h3>
+                    <h3 class="form-title">
+                        <i class="fas fa-plus-circle"></i> 
+                        <span id="form-title-text">নতুন ম্যাচ যোগ করুন</span>
+                    </h3>
                     
                     <div class="form-group">
-                        <label class="form-label">ম্যাচ টাইটেল</label>
+                        <label class="form-label">ম্যাচ টাইটেল *</label>
                         <input type="text" id="match-title" class="form-input" placeholder="উদাহরণ: Barcelona vs Real Madrid">
                     </div>
                     
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">থাম্বনেইল URL</label>
-                            <input type="text" id="match-thumb" class="form-input" placeholder="https://example.com/image.jpg">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">ভিডিও URL</label>
-                            <input type="text" id="match-video" class="form-input" placeholder="YouTube/Vimeo লিঙ্ক">
-                        </div>
+                    <div class="form-group">
+                        <label class="form-label">বর্ণনা</label>
+                        <textarea id="match-description" class="form-input" placeholder="ম্যাচের বিস্তারিত বর্ণনা..."></textarea>
                     </div>
                     
                     <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">থাম্বনেইল URL *</label>
+                            <input type="text" id="match-thumb" class="form-input" placeholder="https://example.com/image.jpg">
+                        </div>
                         <div class="form-group">
                             <label class="form-label">বিভাগ</label>
                             <select id="match-category" class="form-input">
                                 <option value="football">ফুটবল</option>
                                 <option value="cricket">ক্রিকেট</option>
+                                <option value="tennis">টেনিস</option>
+                                <option value="basketball">বাস্কেটবল</option>
                                 <option value="other">অন্যান্য</option>
                             </select>
                         </div>
+                    </div>
+                    
+                    <!-- Video Type Selection -->
+                    <div class="form-group">
+                        <label class="form-label">ভিডিও সোর্স *</label>
+                        <div class="video-type-selector">
+                            <button type="button" class="video-type-btn active" data-type="url" onclick="selectVideoType('url')">
+                                ভিডিও URL
+                            </button>
+                            <button type="button" class="video-type-btn" data-type="embed" onclick="selectVideoType('embed')">
+                                এম্বেড কোড
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Video URL Input -->
+                    <div class="form-group" id="video-url-group">
+                        <label class="form-label">ভিডিও URL *</label>
+                        <input type="text" id="match-video-url" class="form-input" placeholder="YouTube/Vimeo/Stream লিঙ্ক">
+                        <small style="color: var(--text2); margin-top: 5px; display: block;">
+                            সমর্থিত: YouTube, Vimeo, M3U8, MP4 লিঙ্ক
+                        </small>
+                    </div>
+                    
+                    <!-- Embed Code Input -->
+                    <div class="form-group" id="video-embed-group" style="display: none;">
+                        <label class="form-label">এম্বেড কোড *</label>
+                        <textarea id="match-embed-code" class="form-input" placeholder='<iframe src="..." frameborder="0" allowfullscreen></iframe>'></textarea>
+                        <small style="color: var(--text2); margin-top: 5px; display: block;">
+                            সম্পূর্ণ এম্বেড কোড পেস্ট করুন
+                        </small>
+                    </div>
+                    
+                    <!-- Preview -->
+                    <div class="preview-container" id="video-preview">
+                        <div style="color: var(--text2); margin-bottom: 10px;">প্রিভিউ:</div>
+                        <div id="preview-content" style="background: #000; border-radius: 5px; overflow: hidden; min-height: 200px; display: flex; align-items: center; justify-content: center; color: var(--text2);">
+                            ভিডিও প্রিভিউ এখানে দেখানো হবে
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">স্ট্যাটাস</label>
                             <select id="match-status" class="form-input">
                                 <option value="active">সক্রিয়</option>
                                 <option value="inactive">নিষ্ক্রিয়</option>
+                                <option value="upcoming">আসন্ন</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">দর্শক সংখ্যা</label>
+                            <input type="number" id="match-watching" class="form-input" value="0" min="0">
                         </div>
                     </div>
                     
-                    <button class="btn-primary" onclick="saveMatch()">
-                        <i class="fas fa-save"></i> পাবলিশ করুন
-                    </button>
+                    <div style="display: flex; gap: 15px; margin-top: 20px;">
+                        <button class="btn-primary" onclick="saveMatch()" id="save-match-btn">
+                            <i class="fas fa-save"></i> <span id="save-btn-text">পাবলিশ করুন</span>
+                        </button>
+                        <button class="btn-primary" onclick="previewVideo()" style="background: var(--green);">
+                            <i class="fas fa-eye"></i> প্রিভিউ
+                        </button>
+                        <button class="btn-primary" onclick="resetMatchForm()" style="background: var(--text2);" type="button">
+                            <i class="fas fa-redo"></i> রিসেট
+                        </button>
+                    </div>
+                    
+                    <input type="hidden" id="edit-match-id">
                 </div>
                 
                 <div class="form-card">
-                    <h3 class="form-title"><i class="fas fa-list"></i> এক্টিভ ম্যাচ লিস্ট</h3>
+                    <h3 class="form-title"><i class="fas fa-list"></i> ম্যাচ লিস্ট</h3>
+                    
+                    <div style="margin-bottom: 15px; display: flex; gap: 10px;">
+                        <button class="video-type-btn active" onclick="filterMatches('all')">সব</button>
+                        <button class="video-type-btn" onclick="filterMatches('active')">সক্রিয়</button>
+                        <button class="video-type-btn" onclick="filterMatches('inactive')">নিষ্ক্রিয়</button>
+                        <button class="video-type-btn" onclick="filterMatches('upcoming')">আসন্ন</button>
+                    </div>
+                    
                     <div class="table-container">
                         <table class="data-table">
                             <thead>
                                 <tr>
                                     <th>ম্যাচ</th>
+                                    <th>বিভাগ</th>
                                     <th>দর্শক</th>
                                     <th>স্ট্যাটাস</th>
+                                    <th>তারিখ</th>
                                     <th>একশন</th>
                                 </tr>
                             </thead>
@@ -442,13 +651,25 @@
             <div id="users-tab" class="tab-content">
                 <div class="form-card">
                     <h3 class="form-title"><i class="fas fa-users"></i> ইউজার ম্যানেজমেন্ট</h3>
+                    
+                    <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                        <div style="flex: 1;">
+                            <input type="text" id="user-search" class="form-input" placeholder="ইউজার খুঁজুন..." onkeyup="searchUsers()">
+                        </div>
+                        <button class="btn-primary" onclick="exportUsers()" style="background: var(--green);">
+                            <i class="fas fa-download"></i> এক্সপোর্ট
+                        </button>
+                    </div>
+                    
                     <div class="table-container">
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>ইউজার</th>
+                                    <th>নাম</th>
                                     <th>XP</th>
                                     <th>স্ট্যাটাস</th>
+                                    <th>যোগদান</th>
+                                    <th>সর্বশেষ</th>
                                     <th>একশন</th>
                                 </tr>
                             </thead>
@@ -466,23 +687,42 @@
                     <h3 class="form-title"><i class="fas fa-cog"></i> সেটিংস</h3>
                     
                     <div class="form-group">
-                        <label class="form-label">সাইট টাইটেল</label>
+                        <label class="form-label">সাইট টাইটেল *</label>
                         <input type="text" id="site-title" class="form-input" placeholder="Toto Live Stream">
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">লোগো URL</label>
+                        <label class="form-label">লোগো URL *</label>
                         <input type="text" id="logo-url" class="form-input" placeholder="https://example.com/logo.png">
+                        <small style="color: var(--text2); margin-top: 5px; display: block;">
+                            লোগো ছবির URL দিন (PNG/JPG/SVG রিকমেন্ডেড)
+                        </small>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label class="form-label">ডিফল্ট XP</label>
-                            <input type="number" id="default-xp" class="form-input" value="1000">
+                            <label class="form-label">ডিফল্ট XP *</label>
+                            <input type="number" id="default-xp" class="form-input" value="1000" min="0">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">প্রিমিয়াম প্রাইস</label>
-                            <input type="number" id="premium-price" class="form-input" value="500">
+                            <label class="form-label">প্রিমিয়াম প্রাইস (৳)</label>
+                            <input type="number" id="premium-price" class="form-input" value="500" min="0">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">সাইট বর্ণনা</label>
+                        <textarea id="site-description" class="form-input" placeholder="সাইট সম্পর্কে সংক্ষিপ্ত বর্ণনা..."></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">প্রিমিয়াম এক্সট্রা XP</label>
+                            <input type="number" id="premium-bonus-xp" class="form-input" value="500" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">দেখা প্রতি XP</label>
+                            <input type="number" id="watch-xp" class="form-input" value="10" min="0">
                         </div>
                     </div>
                     
@@ -519,6 +759,25 @@
         
         let currentUser = null;
         let editMatchId = null;
+        let videoType = 'url'; // 'url' or 'embed'
+        
+        // Mobile Menu Toggle
+        document.getElementById('mobile-menu-toggle').onclick = function() {
+            document.getElementById('sidebar').classList.toggle('active');
+        };
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const toggleBtn = document.getElementById('mobile-menu-toggle');
+            
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(event.target) && 
+                !toggleBtn.contains(event.target) && 
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
         
         // Admin Login
         function adminLogin() {
@@ -532,13 +791,13 @@
                 return;
             }
             
-            // Hardcoded admin credentials (temporary)
+            // Hardcoded admin credentials
             if (email === 'admin@totolive.com' && password === 'admin123') {
                 // Simulate admin login
                 document.getElementById('login-page').style.display = 'none';
                 document.getElementById('dashboard').style.display = 'flex';
                 document.getElementById('admin-email-display').textContent = email;
-                currentUser = { email: email };
+                currentUser = { email: email, uid: 'admin' };
                 
                 // Load data
                 loadDashboardData();
@@ -546,13 +805,17 @@
                 loadUsers();
                 loadSettings();
                 
+                // Close mobile menu on login
+                if (window.innerWidth <= 768) {
+                    document.getElementById('sidebar').classList.remove('active');
+                }
+                
                 return;
             }
             
             // Firebase Authentication
             auth.signInWithEmailAndPassword(email, password)
                 .then((userCredential) => {
-                    // Check admin status (you need to implement custom claims)
                     document.getElementById('login-page').style.display = 'none';
                     document.getElementById('dashboard').style.display = 'flex';
                     document.getElementById('admin-email-display').textContent = email;
@@ -565,7 +828,7 @@
                     loadSettings();
                     
                 }).catch((error) => {
-                    errorElement.textContent = error.message;
+                    errorElement.textContent = 'ভুল ইমেইল বা পাসওয়ার্ড';
                     errorElement.style.display = 'block';
                 });
         }
@@ -575,10 +838,11 @@
             auth.signOut().then(() => {
                 document.getElementById('dashboard').style.display = 'none';
                 document.getElementById('login-page').style.display = 'flex';
-                document.getElementById('admin-email').value = '';
-                document.getElementById('admin-password').value = '';
+                document.getElementById('admin-email').value = 'admin@totolive.com';
+                document.getElementById('admin-password').value = 'admin123';
                 document.getElementById('login-error').style.display = 'none';
                 currentUser = null;
+                editMatchId = null;
             });
         }
         
@@ -596,7 +860,7 @@
             
             // Show selected tab
             document.getElementById(tabId).classList.add('active');
-            button.classList.add('active');
+            if (button) button.classList.add('active');
             
             // Update page title
             const titles = {
@@ -606,66 +870,224 @@
                 'settings-tab': 'সেটিংস'
             };
             document.getElementById('page-title').textContent = titles[tabId] || 'ড্যাশবোর্ড';
+            
+            // Close mobile menu on tab change (mobile)
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('active');
+            }
+        }
+        
+        // Video Type Selection
+        function selectVideoType(type) {
+            videoType = type;
+            
+            // Update buttons
+            document.querySelectorAll('.video-type-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.type === type) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Show/hide inputs
+            if (type === 'url') {
+                document.getElementById('video-url-group').style.display = 'block';
+                document.getElementById('video-embed-group').style.display = 'none';
+            } else {
+                document.getElementById('video-url-group').style.display = 'none';
+                document.getElementById('video-embed-group').style.display = 'block';
+            }
+            
+            // Clear preview
+            document.getElementById('video-preview').classList.remove('active');
+        }
+        
+        // Preview Video
+        function previewVideo() {
+            const previewContent = document.getElementById('preview-content');
+            const previewContainer = document.getElementById('video-preview');
+            
+            let videoHtml = '';
+            
+            if (videoType === 'url') {
+                const videoUrl = document.getElementById('match-video-url').value;
+                if (!videoUrl.trim()) {
+                    alert('ভিডিও URL দিন');
+                    return;
+                }
+                
+                // Check URL type and create preview
+                if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+                    let videoId = '';
+                    
+                    if (videoUrl.includes('youtube.com/watch')) {
+                        const urlParams = new URLSearchParams(new URL(videoUrl).search);
+                        videoId = urlParams.get('v');
+                    } else if (videoUrl.includes('youtu.be/')) {
+                        videoId = videoUrl.split('youtu.be/')[1];
+                    }
+                    
+                    if (videoId) {
+                        videoHtml = `
+                            <iframe 
+                                width="100%" 
+                                height="315" 
+                                src="https://www.youtube.com/embed/${videoId}" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        `;
+                    }
+                } else if (videoUrl.includes('vimeo.com')) {
+                    const videoId = videoUrl.split('vimeo.com/')[1];
+                    if (videoId) {
+                        videoHtml = `
+                            <iframe 
+                                width="100%" 
+                                height="315" 
+                                src="https://player.vimeo.com/video/${videoId}" 
+                                frameborder="0" 
+                                allow="autoplay; fullscreen" 
+                                allowfullscreen>
+                            </iframe>
+                        `;
+                    }
+                } else {
+                    videoHtml = `
+                        <div style="padding: 40px; text-align: center;">
+                            <i class="fas fa-video" style="font-size: 48px; color: var(--text2); margin-bottom: 20px;"></i>
+                            <p>ভিডিও প্রিভিউ উপলব্ধ নয়</p>
+                            <p><small>লিঙ্ক: ${videoUrl}</small></p>
+                        </div>
+                    `;
+                }
+            } else {
+                const embedCode = document.getElementById('match-embed-code').value;
+                if (!embedCode.trim()) {
+                    alert('এম্বেড কোড দিন');
+                    return;
+                }
+                
+                videoHtml = embedCode;
+            }
+            
+            previewContent.innerHTML = videoHtml;
+            previewContainer.classList.add('active');
         }
         
         // Load Dashboard Data
         function loadDashboardData() {
             // Users count
             db.ref('users').on('value', snapshot => {
-                document.getElementById('stat-users').textContent = snapshot.numChildren();
+                const totalUsers = snapshot.numChildren();
+                document.getElementById('stat-users').textContent = totalUsers;
+                
+                // Count today's users
+                const today = new Date().setHours(0,0,0,0);
+                let todayUsers = 0;
+                let premiumUsers = 0;
+                let totalXP = 0;
+                
+                snapshot.forEach(child => {
+                    const user = child.val();
+                    totalXP += user.xp || 0;
+                    
+                    if (user.premium) {
+                        premiumUsers++;
+                    }
+                    
+                    if (user.createdAt && user.createdAt >= today) {
+                        todayUsers++;
+                    }
+                });
+                
+                document.getElementById('today-users').textContent = todayUsers;
+                document.getElementById('premium-users').textContent = premiumUsers;
+                document.getElementById('stat-total-xp').textContent = totalXP;
             });
             
             // Matches count
             db.ref('matches').on('value', snapshot => {
                 let activeMatches = 0;
                 let totalViewers = 0;
-                let totalXP = 0;
+                let currentViewers = 0;
                 
                 snapshot.forEach(child => {
                     const match = child.val();
                     if (match.status === 'active') {
                         activeMatches++;
                         totalViewers += match.watching || 0;
+                        currentViewers += match.watching || 0;
                     }
                 });
                 
                 document.getElementById('stat-matches').textContent = activeMatches;
-                document.getElementById('stat-viewers').textContent = totalViewers;
+                document.getElementById('stat-viewers').textContent = currentViewers;
+                document.getElementById('total-viewers').textContent = totalViewers;
             });
             
-            // Total XP
-            db.ref('users').once('value').then(snapshot => {
-                let totalXP = 0;
-                snapshot.forEach(child => {
-                    const user = child.val();
-                    totalXP += user.xp || 0;
+            // Active users (last 5 minutes)
+            setInterval(() => {
+                const fiveMinutesAgo = Date.now() - (5 * 60 * 1000);
+                let activeUsers = 0;
+                
+                db.ref('users').once('value').then(snapshot => {
+                    snapshot.forEach(child => {
+                        const user = child.val();
+                        if (user.lastSeen && user.lastSeen > fiveMinutesAgo) {
+                            activeUsers++;
+                        }
+                    });
+                    
+                    document.getElementById('active-users').textContent = activeUsers;
                 });
-                document.getElementById('stat-total-xp').textContent = totalXP;
-            });
+            }, 30000);
         }
         
         // Matches Management
         function saveMatch() {
             const title = document.getElementById('match-title').value;
+            const description = document.getElementById('match-description').value;
             const thumbnail = document.getElementById('match-thumb').value;
-            const videoUrl = document.getElementById('match-video').value;
             const category = document.getElementById('match-category').value;
             const status = document.getElementById('match-status').value;
+            const watching = parseInt(document.getElementById('match-watching').value) || 0;
             
-            if (!title || !thumbnail || !videoUrl) {
-                alert('সব ফিল্ড পূরণ করুন');
+            if (!title.trim() || !thumbnail.trim()) {
+                alert('ম্যাচ টাইটেল এবং থাম্বনেইল URL অবশ্যই দিতে হবে');
                 return;
+            }
+            
+            let videoSource = '';
+            if (videoType === 'url') {
+                const videoUrl = document.getElementById('match-video-url').value;
+                if (!videoUrl.trim()) {
+                    alert('ভিডিও URL দিন');
+                    return;
+                }
+                videoSource = videoUrl;
+            } else {
+                const embedCode = document.getElementById('match-embed-code').value;
+                if (!embedCode.trim()) {
+                    alert('এম্বেড কোড দিন');
+                    return;
+                }
+                videoSource = embedCode;
             }
             
             const matchData = {
                 title: title,
+                description: description,
                 thumbnail: thumbnail,
-                videoUrl: videoUrl,
                 category: category,
                 status: status,
-                watching: 0,
+                watching: watching,
+                videoUrl: videoSource,
+                videoType: videoType,
                 createdAt: Date.now(),
-                createdBy: currentUser?.email || 'admin'
+                createdBy: currentUser?.email || 'admin',
+                updatedAt: Date.now()
             };
             
             let promise;
@@ -677,18 +1099,31 @@
             
             promise.then(() => {
                 alert(editMatchId ? 'ম্যাচ আপডেট করা হয়েছে!' : 'ম্যাচ যোগ করা হয়েছে!');
-                
-                // Reset form
-                document.getElementById('match-title').value = '';
-                document.getElementById('match-thumb').value = '';
-                document.getElementById('match-video').value = '';
-                document.getElementById('match-category').value = 'football';
-                document.getElementById('match-status').value = 'active';
-                editMatchId = null;
+                resetMatchForm();
                 
             }).catch(error => {
                 alert('ত্রুটি: ' + error.message);
             });
+        }
+        
+        function resetMatchForm() {
+            document.getElementById('match-title').value = '';
+            document.getElementById('match-description').value = '';
+            document.getElementById('match-thumb').value = '';
+            document.getElementById('match-video-url').value = '';
+            document.getElementById('match-embed-code').value = '';
+            document.getElementById('match-category').value = 'football';
+            document.getElementById('match-status').value = 'active';
+            document.getElementById('match-watching').value = '0';
+            document.getElementById('edit-match-id').value = '';
+            editMatchId = null;
+            
+            document.getElementById('form-title-text').textContent = 'নতুন ম্যাচ যোগ করুন';
+            document.getElementById('save-btn-text').textContent = 'পাবলিশ করুন';
+            document.getElementById('video-preview').classList.remove('active');
+            
+            // Reset to URL type
+            selectVideoType('url');
         }
         
         function loadMatches() {
@@ -696,28 +1131,39 @@
                 const list = document.getElementById('matches-list');
                 list.innerHTML = '';
                 
+                if (!snapshot.exists()) {
+                    list.innerHTML = `
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 40px; color: var(--text2);">
+                                <i class="fas fa-tv" style="font-size: 48px; margin-bottom: 20px; display: block;"></i>
+                                এখনও কোন ম্যাচ যোগ করা হয়নি
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
                 snapshot.forEach(child => {
                     const match = child.val();
                     const matchId = child.key;
+                    const date = new Date(match.createdAt).toLocaleDateString('bn-BD');
                     
                     const row = document.createElement('tr');
+                    row.className = `match-row status-${match.status}`;
                     row.innerHTML = `
                         <td>
                             <strong>${match.title}</strong><br>
-                            <small style="color: #888;">${match.category}</small>
+                            <small style="color: #888;">${match.description ? match.description.substring(0, 50) + '...' : 'কোন বর্ণনা নেই'}</small>
                         </td>
+                        <td>${match.category}</td>
                         <td>${match.watching || 0}</td>
                         <td>
-                            <span style="
-                                background: ${match.status === 'active' ? '#23d16020' : '#ff386020'};
-                                color: ${match.status === 'active' ? '#23d160' : '#ff3860'};
-                                padding: 5px 10px;
-                                border-radius: 20px;
-                                font-size: 14px;
-                            ">
-                                ${match.status === 'active' ? 'সক্রিয়' : 'নিষ্ক্রিয়'}
+                            <span class="status-badge status-${match.status}">
+                                ${match.status === 'active' ? 'সক্রিয়' : 
+                                  match.status === 'inactive' ? 'নিষ্ক্রিয়' : 'আসন্ন'}
                             </span>
                         </td>
+                        <td>${date}</td>
                         <td>
                             <button class="action-btn btn-edit" onclick="editMatch('${matchId}')">
                                 <i class="fas fa-edit"></i>
@@ -729,6 +1175,54 @@
                     `;
                     list.appendChild(row);
                 });
+                
+                // Add CSS for status badges
+                if (!document.querySelector('#status-styles')) {
+                    const style = document.createElement('style');
+                    style.id = 'status-styles';
+                    style.textContent = `
+                        .status-badge {
+                            padding: 5px 12px;
+                            border-radius: 20px;
+                            font-size: 12px;
+                            font-weight: bold;
+                        }
+                        .status-active {
+                            background: rgba(35,209,96,0.2);
+                            color: #23d160;
+                        }
+                        .status-inactive {
+                            background: rgba(255,56,96,0.2);
+                            color: #ff3860;
+                        }
+                        .status-upcoming {
+                            background: rgba(255,221,87,0.2);
+                            color: #ffdd57;
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+            });
+        }
+        
+        function filterMatches(status) {
+            const rows = document.querySelectorAll('.match-row');
+            rows.forEach(row => {
+                if (status === 'all' || row.classList.contains(`status-${status}`)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            // Update filter buttons
+            document.querySelectorAll('.video-type-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.includes(status === 'all' ? 'সব' : 
+                    status === 'active' ? 'সক্রিয়' : 
+                    status === 'inactive' ? 'নিষ্ক্রিয়' : 'আসন্ন')) {
+                    btn.classList.add('active');
+                }
             });
         }
         
@@ -738,13 +1232,28 @@
                 const match = snapshot.val();
                 if (match) {
                     document.getElementById('match-title').value = match.title;
+                    document.getElementById('match-description').value = match.description || '';
                     document.getElementById('match-thumb').value = match.thumbnail;
-                    document.getElementById('match-video').value = match.videoUrl;
                     document.getElementById('match-category').value = match.category;
                     document.getElementById('match-status').value = match.status;
+                    document.getElementById('match-watching').value = match.watching || 0;
+                    document.getElementById('edit-match-id').value = matchId;
+                    
+                    // Set video type and content
+                    if (match.videoType === 'embed') {
+                        selectVideoType('embed');
+                        document.getElementById('match-embed-code').value = match.videoUrl;
+                    } else {
+                        selectVideoType('url');
+                        document.getElementById('match-video-url').value = match.videoUrl;
+                    }
+                    
+                    document.getElementById('form-title-text').textContent = 'ম্যাচ এডিট করুন';
+                    document.getElementById('save-btn-text').textContent = 'আপডেট করুন';
                     
                     // Scroll to form
-                    document.getElementById('matches-tab').scrollIntoView();
+                    showTab('matches-tab');
+                    document.getElementById('matches-tab').scrollIntoView({ behavior: 'smooth' });
                 }
             });
         }
@@ -763,9 +1272,23 @@
                 const list = document.getElementById('users-list');
                 list.innerHTML = '';
                 
+                if (!snapshot.exists()) {
+                    list.innerHTML = `
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 40px; color: var(--text2);">
+                                <i class="fas fa-users" style="font-size: 48px; margin-bottom: 20px; display: block;"></i>
+                                এখনও কোন ইউজার নেই
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
                 snapshot.forEach(child => {
                     const user = child.val();
                     const userId = child.key;
+                    const joinDate = user.createdAt ? new Date(user.createdAt).toLocaleDateString('bn-BD') : 'অজানা';
+                    const lastSeen = user.lastSeen ? new Date(user.lastSeen).toLocaleString('bn-BD') : 'কখনও নয়';
                     
                     const row = document.createElement('tr');
                     row.innerHTML = `
@@ -776,23 +1299,38 @@
                         <td>${user.xp || 0} XP</td>
                         <td>
                             <span style="
-                                background: ${user.premium ? '#ffdd5720' : '#3273dc20'};
+                                background: ${user.premium ? 'rgba(255,221,87,0.2)' : 'rgba(50,115,220,0.2)'};
                                 color: ${user.premium ? '#ffdd57' : '#3273dc'};
                                 padding: 5px 10px;
                                 border-radius: 20px;
-                                font-size: 14px;
+                                font-size: 12px;
                             ">
                                 ${user.premium ? 'প্রিমিয়াম' : 'ফ্রি'}
                             </span>
                         </td>
+                        <td>${joinDate}</td>
+                        <td><small>${lastSeen}</small></td>
                         <td>
                             <button class="action-btn btn-edit" onclick="editUserXP('${userId}')">
                                 <i class="fas fa-bolt"></i> XP
+                            </button>
+                            <button class="action-btn btn-edit" onclick="togglePremium('${userId}')" style="background: rgba(255,221,87,0.1); color: #ffdd57; border-color: #ffdd57;">
+                                <i class="fas fa-crown"></i>
                             </button>
                         </td>
                     `;
                     list.appendChild(row);
                 });
+            });
+        }
+        
+        function searchUsers() {
+            const searchTerm = document.getElementById('user-search').value.toLowerCase();
+            const rows = document.querySelectorAll('#users-list tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
             });
         }
         
@@ -805,6 +1343,55 @@
             }
         }
         
+        function togglePremium(userId) {
+            db.ref('users/' + userId + '/premium').once('value').then(snapshot => {
+                const currentPremium = snapshot.val();
+                const newPremium = !currentPremium;
+                
+                db.ref('users/' + userId + '/premium').set(newPremium)
+                    .then(() => {
+                        alert(newPremium ? 'প্রিমিয়াম সক্রিয় করা হয়েছে!' : 'প্রিমিয়াম নিষ্ক্রিয় করা হয়েছে!');
+                        
+                        // Add bonus XP if enabling premium
+                        if (newPremium) {
+                            db.ref('settings/premiumBonusXp').once('value').then(settingsSnap => {
+                                const bonusXP = settingsSnap.val() || 500;
+                                db.ref('users/' + userId + '/xp').transaction(current => {
+                                    return (current || 0) + bonusXP;
+                                });
+                            });
+                        }
+                    })
+                    .catch(error => alert('ত্রুটি: ' + error.message));
+            });
+        }
+        
+        function exportUsers() {
+            db.ref('users').once('value').then(snapshot => {
+                const users = [];
+                snapshot.forEach(child => {
+                    users.push({
+                        id: child.key,
+                        ...child.val()
+                    });
+                });
+                
+                // Create CSV
+                let csv = 'ID,নাম,XP,স্ট্যাটাস,যোগদানের তারিখ\n';
+                users.forEach(user => {
+                    const joinDate = user.createdAt ? new Date(user.createdAt).toLocaleDateString('bn-BD') : 'অজানা';
+                    csv += `"${user.id}","${user.name || 'নতুন ইউজার'}","${user.xp || 0}","${user.premium ? 'প্রিমিয়াম' : 'ফ্রি'}","${joinDate}"\n`;
+                });
+                
+                // Download CSV
+                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `users_${new Date().toISOString().split('T')[0]}.csv`;
+                link.click();
+            });
+        }
+        
         // Settings
         function loadSettings() {
             db.ref('settings').on('value', snapshot => {
@@ -814,6 +1401,9 @@
                     document.getElementById('logo-url').value = settings.logoUrl || '';
                     document.getElementById('default-xp').value = settings.defaultXp || 1000;
                     document.getElementById('premium-price').value = settings.premiumPrice || 500;
+                    document.getElementById('site-description').value = settings.siteDescription || '';
+                    document.getElementById('premium-bonus-xp').value = settings.premiumBonusXp || 500;
+                    document.getElementById('watch-xp').value = settings.watchXp || 10;
                 }
             });
         }
@@ -824,9 +1414,17 @@
                 logoUrl: document.getElementById('logo-url').value,
                 defaultXp: parseInt(document.getElementById('default-xp').value) || 1000,
                 premiumPrice: parseInt(document.getElementById('premium-price').value) || 500,
+                siteDescription: document.getElementById('site-description').value,
+                premiumBonusXp: parseInt(document.getElementById('premium-bonus-xp').value) || 500,
+                watchXp: parseInt(document.getElementById('watch-xp').value) || 10,
                 updatedAt: Date.now(),
                 updatedBy: currentUser?.email || 'admin'
             };
+            
+            if (!settings.siteTitle.trim() || !settings.logoUrl.trim()) {
+                alert('সাইট টাইটেল এবং লোগো URL অবশ্যই দিতে হবে');
+                return;
+            }
             
             db.ref('settings').set(settings)
                 .then(() => alert('সেটিংস সেভ করা হয়েছে!'))
@@ -847,6 +1445,19 @@
                 loadUsers();
                 loadSettings();
             }
+        });
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set default tab
+            showTab('dashboard-tab');
+            
+            // Close modals on escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    document.getElementById('video-preview').classList.remove('active');
+                }
+            });
         });
     </script>
 </body>

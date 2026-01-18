@@ -1,68 +1,32 @@
 {
-  "name": "toto-live-stream",
+  "name": "toto-app",
   "version": 2,
   "builds": [
     {
-      "src": "**/*.html",
+      "src": "*.html",
       "use": "@vercel/static"
     },
     {
-      "src": "**/*.js",
+      "src": "*.js",
       "use": "@vercel/static"
     },
     {
-      "src": "**/*.css",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "firebase-config.js",
+      "src": "*.css",
       "use": "@vercel/static"
     }
   ],
-  "rewrites": [
+  "routes": [
     {
-      "source": "/",
-      "destination": "/user/index.html"
+      "src": "/",
+      "dest": "/index.html"
     },
     {
-      "source": "/admin",
-      "destination": "/admin/index.html"
+      "src": "/admin",
+      "dest": "/admin.html"
     },
     {
-      "source": "/admin/",
-      "destination": "/admin/index.html"
-    },
-    {
-      "source": "/user",
-      "destination": "/user/index.html"
-    },
-    {
-      "source": "/user/",
-      "destination": "/user/index.html"
+      "src": "/(.*)",
+      "dest": "/$1"
     }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        }
-      ]
-    }
-  ],
-  "trailingSlash": false
+  ]
 }
